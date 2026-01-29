@@ -2,7 +2,7 @@
 <html lang="tr">
  <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>ARCANA : Decode the Past</title>
   
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
@@ -15,141 +15,189 @@
       margin: 0; padding: 0;
       height: 100vh; width: 100vw; 
       overflow: hidden;
-      
-      /* --- ARKA PLAN AYARLARI --- */
       background-color: #5D4037; 
       background-image: 
-        url('resimler/octo.png'), /* Ahtapot Deseni */
+        url('resimler/octo.png'), 
         linear-gradient(135deg, rgba(93, 64, 55, 0.9) 0%, rgba(62, 39, 35, 0.95) 100%);
-      
-      /* Seyreklik ve Boyut Ayarı */
-      background-size: 450px 450px, cover; /* Ahtapotları biraz büyütüp arayı açtık */
+      background-size: 450px 450px, cover; 
       background-repeat: repeat, no-repeat;
-      
-      /* Konumlandırma: Merkeze hizalı */
-      background-position: center center, center;
-      
-      /* Deseni zemine hafifçe gömme */
+      background-position: 80% center, center;
       background-blend-mode: soft-light;
-
       display: flex; justify-content: center; align-items: center;
       color: #2F1B14;
     }
 
     .game-container {
       width: 95%; max-width: 950px; height: 98vh;
-      background: #F5E6D3; /* Parşömen Rengi */
-      border-radius: 15px;
-      border: 4px solid #8B4513;
-      box-shadow: 0 15px 60px rgba(0,0,0,0.95); /* Gölgeyi artırdım */
+      background: #F5E6D3; 
+      border-radius: 15px; border: 4px solid #8B4513;
+      box-shadow: 0 15px 60px rgba(0,0,0,0.95);
       display: flex; flex-direction: column;
       position: relative; padding: 15px;
       z-index: 10;
     }
 
-    /* Üst Panel */
-    .header-bar {
-        display: flex; justify-content: space-around; align-items: center;
-        background: #E8D5C4; padding: 8px 10px; border-radius: 10px;
-        border: 2px solid #8B4513; margin-bottom: 10px; font-weight: bold; font-size: 1rem;
-        flex-wrap: wrap;
+    /* OYUN İÇİ BAŞLIK */
+    .game-main-title {
+        text-align: center; font-size: 1.8rem; font-weight: bold;
+        color: #e65739; 
+        margin-bottom: 10px;
+        text-shadow: 1px 1px 0px #3E2723;
+        letter-spacing: 1px;
+        text-transform: uppercase; border-bottom: 2px solid #8B4513;
+        padding-bottom: 5px; flex-shrink: 0;
     }
 
+    /* ÜST PANEL */
+    .header-bar {
+        display: flex; justify-content: space-around; align-items: center;
+        background: #E8D5C4; padding: 5px 10px; border-radius: 10px;
+        border: 2px solid #8B4513; margin-bottom: 5px; font-weight: bold; font-size: 0.95rem;
+        flex-wrap: wrap; flex-shrink: 0;
+    }
     .info-box-header {
-        background: rgba(255,255,255,0.6); padding: 5px 10px;
+        background: rgba(255,255,255,0.6); padding: 4px 8px;
         border-radius: 6px; border: 1px solid #Bcaaa4; margin: 2px;
     }
 
-    /* Oyun Alanı */
+    /* OYUN ALANI */
     .game-area {
-      flex: 1; display: flex; flex-direction: column;
-      overflow: hidden; 
+      flex: 1; display: flex; flex-direction: column; overflow: hidden; 
       background: #fff; border-radius: 12px; border: 2px solid #D2691E;
-      padding: 15px; position: relative;
+      padding: 10px; position: relative;
     }
 
-    /* Görsel Kutusu */
     .image-box {
       flex: 1; min-height: 0; 
       background: #2c1810; border-radius: 8px;
       overflow: hidden; display: flex; align-items: center; justify-content: center;
       margin-bottom: 10px; border: 2px solid #5D4037; position: relative;
     }
-    
     .image-box img { width: 100%; height: 100%; object-fit: contain; display: block; }
 
-    /* Soru Metni */
     .question-text {
-      font-size: 1.3rem; font-weight: bold; color: #8B4513;
+      font-size: 1.2rem; font-weight: bold; color: #8B4513;
       text-align: center; margin-bottom: 10px; flex-shrink: 0; min-height: 40px;
       display: flex; align-items: center; justify-content: center;
     }
 
-    /* Şıklar */
     .options-grid {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
-      height: 110px; flex-shrink: 0; margin-bottom: 10px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+      height: auto; flex-shrink: 0; margin-bottom: 5px;
     }
-    
     .opt-btn {
       background: #EFEBE9; border: 2px solid #8B4513; border-radius: 8px;
       color: #3E2723; font-weight: bold; cursor: pointer; font-size: 0.95rem;
       transition: all 0.1s; display: flex; align-items: center; justify-content: center;
-      padding: 5px; text-align: center;
+      padding: 8px 2px; text-align: center; min-height: 45px;
     }
     .opt-btn:hover:not(:disabled) { background: #D2691E; color: white; transform: translateY(-2px); }
     .opt-btn.correct { background: #4CAF50 !important; color: white; border-color: #2E7D32; }
     .opt-btn.incorrect { background: #f44336 !important; color: white; border-color: #C62828; }
     .opt-btn:disabled { opacity: 0.7; cursor: not-allowed; }
-    .hint-highlight { box-shadow: 0 0 15px #4CAF50; border-color: #4CAF50; animation: pulse 1s infinite; }
 
-    /* --- JOKER ALANI --- */
+    /* JOKER ALANI */
     .joker-container {
-        display: flex; justify-content: center; gap: 15px; margin-bottom: 10px; flex-shrink: 0;
+        display: flex; justify-content: center; gap: 8px; margin-bottom: 5px; flex-shrink: 0;
     }
     .joker-btn {
         background: #FFB300; color: #3E2723; border: 2px solid #FF6F00;
-        border-radius: 50px; padding: 8px 15px; font-weight: bold; cursor: pointer;
-        display: flex; align-items: center; gap: 5px; box-shadow: 0 4px 0 #E65100;
-        transition: all 0.2s; font-size: 0.9rem;
+        border-radius: 50px; padding: 5px 10px; font-weight: bold; cursor: pointer;
+        display: flex; align-items: center; gap: 4px; box-shadow: 0 3px 0 #E65100;
+        transition: all 0.2s; font-size: 0.8rem;
     }
     .joker-btn:hover:not(:disabled) { transform: translateY(-2px); background: #FFC107; }
     .joker-btn:active:not(:disabled) { transform: translateY(2px); box-shadow: none; }
     .joker-btn:disabled { background: #Bcaaa4; color: #666; border-color: #8D6E63; box-shadow: none; cursor: default; opacity: 0.6; }
 
-    /* Alt Panel */
+    /* ALT PANEL */
     .bottom-bar {
-        height: 70px; margin-top: auto; flex-shrink: 0;
+        height: 60px; margin-top: 5px; flex-shrink: 0;
         display: flex; align-items: center; justify-content: space-between;
-        background: #EFEBE9; border-radius: 10px; padding: 5px 15px;
+        background: #EFEBE9; border-radius: 10px; padding: 5px 10px;
         border: 1px solid #ccc;
     }
-
     .info-text {
-        font-size: 1rem; color: #333; flex: 1; margin-right: 15px;
+        font-size: 0.95rem; color: #333; flex: 1; margin-right: 10px;
         display: flex; align-items: center; height: 100%;
-        font-family: 'Segoe UI', sans-serif; overflow-y: auto;
+        font-family: 'Segoe UI', sans-serif; overflow-y: auto; line-height: 1.2;
     }
-    
     .info-success { color: #2E7D32; font-weight: bold; }
     .info-error { color: #C62828; font-weight: bold; }
+    .info-hint { color: #0277BD; font-weight: bold; }
 
     .next-btn {
-        background: #8B4513; color: white; border: none; padding: 0 30px;
-        height: 40px; font-size: 1rem; border-radius: 8px; 
+        background: #8B4513; color: white; border: none; padding: 0 20px;
+        height: 35px; font-size: 0.9rem; border-radius: 8px; 
         cursor: pointer; font-weight: bold; flex-shrink: 0;
-        box-shadow: 0 4px 0 #5D4037; visibility: hidden;
+        box-shadow: 0 3px 0 #5D4037; visibility: hidden;
     }
     .next-btn.visible { visibility: visible; }
-    .next-btn:active { transform: translateY(4px); box-shadow: none; }
+    .next-btn:active { transform: translateY(3px); box-shadow: none; }
 
-    /* Ekranlar ve Animasyonlar */
-    .level-up-overlay {
-        position: absolute; top:0; left:0; width:100%; height:100%;
-        background: rgba(44, 24, 16, 0.95); color: #FFECB3;
-        display: none; flex-direction: column; justify-content: center; align-items: center;
-        z-index: 50; animation: fadeIn 0.5s; text-align: center; padding: 20px;
+    /* --- BAŞLANGIÇ EKRANI ÖZELLEŞTİRMELERİ --- */
+    #startScreen h1 {
+        font-size: 3.5rem; font-weight: 900; 
+        color: #e1ad3d; 
+        text-shadow: 3px 3px 0px #3E2723; margin-bottom: 10px;
+        text-transform: uppercase; letter-spacing: 2px;
     }
+    
+    .start-images-container {
+        display: flex; justify-content: center; gap: 30px; margin: 25px 0;
+    }
+    
+    /* YENİ YAPI: Resim ve Çerçevenin Kapsayıcısı */
+    .start-img-box {
+        width: 170px; height: 170px; /* Toplam alan kare */
+        position: relative; /* İçindekileri absolute ile yerleştirmek için */
+        display: flex; justify-content: center; align-items: center;
+        transition: transform 0.3s;
+    }
+    .start-img-box:hover { transform: scale(1.08) rotate(3deg); }
+
+    /* KARE RESİM (Altta) */
+    .start-img-rect {
+        width: auto; height: auto;
+        max-width: 100%; max-height: 100%;
+        object-fit: contain;
+        /* Kare olduğu için border-radius yok */
+        background: rgba(255,255,255,0.15); /* Hafif arka plan */
+        padding: 25px; /* Çerçevenin içine tam oturması ve yazının okunması için */
+    }
+
+    /* DAİRESEL ÇERÇEVE (Üstte) */
+    .start-img-overlay-border {
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        border-radius: 50%; /* Tam daire */
+        border: 4px solid #D2691E; /* Turuncu kenarlık */
+        box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+        pointer-events: none; /* Tıklamaları engelle, alttaki resme geçsin */
+    }
+
+    /* ALT YAZI */
+    .start-subtitle {
+        font-size: 1.6rem; 
+        line-height: 1.5; 
+        max-width: 85%;
+        color: #80c7a0; 
+        font-weight: bold;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.8); 
+        margin-bottom: 20px;
+    }
+
+    #rateBtnLink {
+        display: none; text-align: center; margin-top: 5px; padding: 8px 0;
+        background: #0288D1; color: white; text-decoration: none; 
+        border-radius: 8px; border: 2px solid #01579B; font-weight: bold; 
+        font-family: 'Segoe UI', sans-serif; box-shadow: 0 3px 0 #01579B;
+        transition: all 0.2s; width: 100%; font-size: 0.9rem; flex-shrink: 0;
+    }
+    #rateBtnLink:hover { transform: translateY(-2px); background: #039BE5; }
+
+    /* Overlayler */
     .overlay {
       position: absolute; top: 0; left: 0; width: 100%; height: 100%;
       background: rgba(62, 39, 35, 0.98); z-index: 100;
@@ -157,7 +205,15 @@
       color: #F5E6D3; border-radius: 12px; text-align: center;
     }
     .hidden { display: none; }
-    
+    .level-up-overlay {
+        position: absolute; top:0; left:0; width:100%; height:100%;
+        background: rgba(44, 24, 16, 0.98); color: #FFECB3;
+        display: none; flex-direction: column; justify-content: center; align-items: center;
+        z-index: 50; animation: fadeIn 0.5s; text-align: center; padding: 20px;
+    }
+    .level-up-title { font-size: 2.5rem; color:#FFD700; margin-bottom: 15px; text-shadow: 0 0 10px #E65100; }
+    .level-up-msg { font-size: 1.4rem; color:#F5E6D3; margin-bottom: 15px; line-height: 1.5; max-width: 80%; }
+
     .big-btn {
         margin-top: 25px; padding: 15px 50px; font-size: 1.5rem;
         background: #D2691E; color: white; border: none; border-radius: 50px;
@@ -166,31 +222,28 @@
     }
     .big-btn:hover { transform: scale(1.05); }
 
-    /* --- DEĞERLENDİRME BUTONU STİLİ (GÜNCELLENDİ) --- */
-    .rate-btn {
-        display: inline-block;
-        margin-top: 25px; /* Mesafe artırıldı */
-        padding: 15px 40px; 
-        font-size: 1.2rem;
-        background: #0288D1; /* Parlak Mavi */
-        color: white !important; 
-        text-decoration: none; 
-        border-radius: 50px;
-        border: 2px solid #01579B;
-        font-weight: bold; 
-        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        font-family: 'Segoe UI', sans-serif;
-        cursor: pointer;
-        z-index: 200; /* En üstte görünsün */
-        transition: all 0.2s;
-    }
-    .rate-btn:hover { transform: scale(1.05); background: #039BE5; }
-    .rate-btn:active { transform: translateY(4px); box-shadow: none; }
-
     .sad-emoji { position: fixed; font-size: 4rem; pointer-events: none; z-index: 9999; animation: floatUp 2s ease-out forwards; }
     @keyframes floatUp { 0% { transform: translateY(0); opacity: 0; } 100% { transform: translateY(-100px); opacity: 0; } }
     @keyframes fadeIn { from {opacity:0} to {opacity:1}}
-    @keyframes pulse { 0% { box-shadow: 0 0 5px #4CAF50; } 50% { box-shadow: 0 0 20px #4CAF50; } 100% { box-shadow: 0 0 5px #4CAF50; } }
+
+    /* MOBİL UYUMLULUK */
+    @media (max-width: 600px) {
+        .game-container { width: 100%; height: 100vh; border: none; border-radius: 0; padding: 8px; }
+        .game-main-title { font-size: 1.3rem; margin-bottom: 5px; }
+        .header-bar { font-size: 0.8rem; padding: 3px; }
+        .info-box-header { padding: 2px 5px; }
+        .game-area { padding: 5px; border-width: 1px; }
+        .question-text { font-size: 1rem; min-height: 30px; margin-bottom: 5px; }
+        .opt-btn { font-size: 0.85rem; padding: 5px; min-height: 40px; }
+        .joker-btn { font-size: 0.75rem; padding: 4px 8px; }
+        .bottom-bar { height: 50px; }
+        #startScreen h1 { font-size: 2.2rem !important; }
+        /* Mobilde boyutlar */
+        .start-img-box { width: 130px; height: 130px; }
+        .start-img-rect { padding: 18px; }
+        .start-subtitle { font-size: 1.2rem; }
+        .big-btn { padding: 10px 30px; font-size: 1.2rem; }
+    }
   </style>
  </head>
  <body>
@@ -201,6 +254,8 @@
 
   <div class="game-container">
     
+    <div class="game-main-title">ARCANA : Decode the Past</div>
+
     <div class="header-bar">
         <div class="info-box-header">SEVİYE: <span id="uiLevel" style="color:#D2691E">1</span>/3</div>
         <div class="info-box-header">SORU: <span id="qDisplay">1</span>/30</div>
@@ -223,7 +278,7 @@
           <button id="joker5050" class="joker-btn" onclick="useKarbon14()" title="Yanlış iki şıkkı eler">
               🧪 Karbon-14
           </button>
-          <button id="jokerHint" class="joker-btn" onclick="useRehber()" title="Doğru cevabı gösterir">
+          <button id="jokerHint" class="joker-btn" onclick="useRehber()" title="İpucu gösterir">
               📜 Rehberin Notları
           </button>
           <button id="jokerSkip" class="joker-btn" onclick="useYeniKatman()" title="Soruyu pas geçer">
@@ -237,15 +292,33 @@
       </div>
       
       <div id="levelUpScreen" class="level-up-overlay">
-          <h1 style="font-size:2.5rem; color:#FFD700; margin-bottom:15px;">TEBRİKLER KAŞİF! 🏺</h1>
-          <p style="font-size:1.4rem; color:#F5E6D3; margin-bottom:10px;">Bu aşamaya ulaştın, biraz daha çabala!</p>
+          <h1 id="levelUpTitle" class="level-up-title">SEVİYE ATLADIN!</h1>
+          <p id="levelUpMsg" class="level-up-msg">Tebrikler...</p>
           <p style="font-size:1rem; color:#81C784;">(Süre Yenilendi: 5 Dakika)</p>
       </div>
     </div>
 
+    <a id="rateBtnLink" 
+       href="https://docs.google.com/forms/d/e/1FAIpQLSeTnoEX1LFJdLEzwA_bjVyoVEQf9eDSGgOmyObGDI7iDZTJtg/viewform?usp=dialog" 
+       target="_blank">
+       OYUNU DEĞERLENDİR ⭐
+    </a>
+
     <div id="startScreen" class="overlay">
-        <h1 style="font-size:3rem; margin-bottom:20px; text-shadow: 2px 2px 5px rgba(0,0,0,0.6);">ARCANA<br><span style="font-size:1.5rem">Decode the Past</span></h1>
-        <p style="font-size:1.4rem; line-height: 1.6; max-width: 80%;">
+        <h1>ARCANA<br><span style="font-size:1.8rem; font-weight:normal;">Decode the Past</span></h1>
+        
+        <div class="start-images-container">
+            <div class="start-img-box">
+                <img src="resimler/octo.png" alt="Ahtapot" class="start-img-rect">
+                <div class="start-img-overlay-border"></div>
+            </div>
+            <div class="start-img-box">
+                <img src="resimler/unearthed.png" alt="Kazı" class="start-img-rect">
+                <div class="start-img-overlay-border"></div>
+            </div>
+        </div>
+
+        <p class="start-subtitle">
             Haydi bakalım hafızamızı tazeleyelim,<br>yeni bilgiler öğrenelim!
         </p>
         <button class="big-btn" onclick="startGame()">KAZIYA BAŞLA</button>
@@ -255,62 +328,52 @@
         <h1 id="endTitle">OYUN BİTTİ</h1>
         <h2 id="endScore" style="font-size:3rem; color:#FFD700; text-shadow:0 0 10px #000;">0 Puan</h2>
         <p id="endMsg" style="margin-top:10px; font-size:1.3rem; font-weight:bold; padding:0 20px; color:#F5E6D3"></p>
-        
         <button class="big-btn" onclick="location.reload()">BAŞA DÖN</button>
-        
-        <a href="https://docs.google.com/forms/d/e/1FAIpQLSdGbZcSRHXV28ZupPHjXf_ub9oaK5t0byc5dSoTCpeXMVFjSA/viewform?usp=header" 
-           target="_blank"
-           class="rate-btn">
-           OYUNU DEĞERLENDİR ⭐
-        </a>
     </div>
   </div>
 
   <script>
+    // SORULAR
     const questions = [
-      // --- SEVİYE 1 (10 Soru x 3 Puan) ---
-      { file: "gobeklitepe.png", q: "Tarihin sıfır noktası Göbeklitepe hangi ilimizdedir?", opts: ["Mardin", "Şanlıurfa", "Antep", "Diyarbakır"], a: 1, info: "Göbeklitepe, 12.000 yıllık geçmişiyle Şanlıurfa'dadır." },
-      { file: "efes.png", q: "Efes Antik Kenti nerededir?", opts: ["İzmir", "Aydın", "Muğla", "Antalya"], a: 0, info: "Efes, İzmir'in Selçuk ilçesinde yer alır." },
-      { file: "truva.png", q: "Truva Atı ile ünlü kent nerededir?", opts: ["Bursa", "Balıkesir", "Çanakkale", "İzmir"], a: 2, info: "Truva Savaşı'nın geçtiği yer Çanakkale'dir." },
-      { file: "nemrut.png", q: "Nemrut Dağı heykelleri hangi ildedir?", opts: ["Malatya", "Adıyaman", "Elazığ", "Van"], a: 1, info: "Kommagene Krallığı'na ait heykeller Adıyaman'dadır." },
-      { file: "pamukkale.png", q: "Pamukkale Hierapolis nerededir?", opts: ["Denizli", "Afyon", "Muğla", "Aydın"], a: 0, info: "Beyaz travertenler Denizli'dedir." },
-      { file: "kapadokya.png", q: "Peri Bacaları (Kapadokya) hangi bölgededir?", opts: ["Nevşehir", "Konya", "Kayseri", "Sivas"], a: 0, info: "Kapadokya'nın merkezi Nevşehir'dir." },
-      { file: "sumela.png", q: "Sümela Manastırı hangi ildedir?", opts: ["Rize", "Artvin", "Trabzon", "Ordu"], a: 2, info: "Sümela, Trabzon'un Maçka ilçesindedir." },
-      { file: "kizkulesi.png", q: "Kız Kulesi hangi ilimizdedir?", opts: ["İstanbul", "İzmir", "Çanakkale", "Mersin"], a: 0, info: "Kız Kulesi İstanbul Boğazı'ndadır." },
-      { file: "anitkabir.png", q: "Anıtkabir hangi ilimizdedir?", opts: ["İstanbul", "Ankara", "Samsun", "İzmir"], a: 1, info: "Ulu Önder'in kabri başkent Ankara'dadır." },
-      { file: "aspendos.png", q: "Aspendos Tiyatrosu nerededir?", opts: ["Muğla", "Mersin", "Antalya", "Hatay"], a: 2, info: "En iyi korunan antik tiyatro Antalya'dadır." },
-
-      // --- SEVİYE 2 (10 Soru x 3 Puan) ---
-      { file: "catalhoyuk.png", q: "Çatalhöyük antik kenti nerededir?", opts: ["Konya", "Aksaray", "Ankara", "Karaman"], a: 0, info: "İlk şehir yerleşimi Çatalhöyük Konya'dadır." },
-      { file: "zeugma.png", q: "Zeugma Mozaik Müzesi nerededir?", opts: ["Hatay", "Gaziantep", "Şanlıurfa", "Adana"], a: 1, info: "Çingene Kızı mozaiği Gaziantep'tedir." },
-      { file: "hattusas.png", q: "Hitit başkenti Hattuşaş nerededir?", opts: ["Çorum", "Yozgat", "Amasya", "Tokat"], a: 0, info: "Hititlerin başkenti Çorum, Boğazkale'dedir." },
-      { file: "akdamar.png", q: "Akdamar Kilisesi hangi göldedir?", opts: ["Tuz Gölü", "Beyşehir", "Van Gölü", "Eğirdir"], a: 2, info: "Akdamar Adası, Van Gölü üzerindedir." },
-      { file: "bergama.png", q: "Bergama (Pergamon) nerededir?", opts: ["Manisa", "İzmir", "Balıkesir", "Çanakkale"], a: 1, info: "Bergama Krallığı'nın merkezi İzmir'dedir." },
-      { file: "gordion.png", q: "Kral Midas'ın mezarı Gordion nerededir?", opts: ["Eskişehir", "Kütahya", "Afyon", "Ankara"], a: 3, info: "Frig başkenti Gordion, Ankara Polatlı'dadır." },
-      { file: "myra.png", q: "Noel Baba ile bilinen Myra nerededir?", opts: ["Antalya", "Muğla", "Mersin", "Isparta"], a: 0, info: "Myra (Demre) Antalya'dadır." },
-      { file: "harran.png", q: "Kümbet evleriyle ünlü Harran nerededir?", opts: ["Mardin", "Şanlıurfa", "Batman", "Siirt"], a: 1, info: "Harran Evleri Şanlıurfa'dadır." },
-      { file: "ishakpasa.png", q: "İshak Paşa Sarayı nerededir?", opts: ["Kars", "Erzurum", "Ağrı", "Iğdır"], a: 2, info: "İshak Paşa Sarayı Ağrı'nın Doğubayazıt ilçesindedir." },
-      { file: "hasankeyf.png", q: "Ilısu Barajı altında kalan Hasankeyf nerededir?", opts: ["Mardin", "Batman", "Diyarbakır", "Siirt"], a: 1, info: "Tarihi Hasankeyf Batman'dadır." },
-
-      // --- SEVİYE 3 (10 Soru x 4 Puan) ---
-      { file: "giza.png", q: "Giza Piramitleri hangi ülkededir?", opts: ["Mısır", "Fas", "Tunus", "Sudan"], a: 0, info: "Piramitler Mısır'ın başkenti Kahire'dedir." },
-      { file: "cinseddi.png", q: "Çin Seddi'ni başlatan imparator kimdir?", opts: ["Qin Shi Huang", "Ming", "Han", "Tang"], a: 0, info: "Çin'in ilk imparatoru Qin Shi Huang başlatmıştır." },
-      { file: "machupicchu.png", q: "Machu Picchu hangi ülkededir?", opts: ["Meksika", "Şili", "Peru", "Brezilya"], a: 2, info: "İnka şehri Machu Picchu, Peru'dadır." },
-      { file: "petra.png", q: "Kayalara oyulu Petra antik kenti nerededir?", opts: ["Ürdün", "Lübnan", "Suriye", "Mısır"], a: 0, info: "Gül kırmızısı şehir Petra, Ürdün'dedir." },
-      { file: "kolezyum.png", q: "Kolezyum (Colosseum) hangi şehirdedir?", opts: ["Atina", "Roma", "Milano", "Venedik"], a: 1, info: "Dev arena Kolezyum, Roma'dadır." },
-      { file: "stonehenge.png", q: "Stonehenge hangi ülkededir?", opts: ["İrlanda", "İskoçya", "İngiltere", "Galler"], a: 2, info: "Dev taş çemberi Stonehenge, İngiltere'dedir." },
-      { file: "moai.png", q: "Moai heykelleri (Paskalya Adası) kime aittir?", opts: ["Şili", "Peru", "Arjantin", "Avustralya"], a: 0, info: "Paskalya Adası Şili devletine bağlıdır." },
-      { file: "tacmahal.png", q: "Tac Mahal hangi ülkededir?", opts: ["Pakistan", "Hindistan", "İran", "Bangladeş"], a: 1, info: "Aşkın anıtı Tac Mahal Hindistan'dadır." },
-      { file: "chichenitza.png", q: "Maya piramidi Chichen Itza nerededir?", opts: ["Meksika", "Peru", "Brezilya", "Kolombiya"], a: 0, info: "Chichen Itza, Meksika'daki Maya kentidir." },
-      { file: "parthenon.png", q: "Akropolis'teki Parthenon tapınağı nerededir?", opts: ["Roma", "Atina", "Selanik", "Girit"], a: 1, info: "Parthenon, Yunanistan'ın başkenti Atina'dadır." }
+      { file: "gobeklitepe.png", q: "Tarihin sıfır noktası Göbeklitepe hangi ilimizdedir?", opts: ["Mardin", "Şanlıurfa", "Antep", "Diyarbakır"], a: 1, info: "12.000 yıllık bu tapınak, 'Peygamberler Şehri' olarak bilinen ilimizdedir." },
+      { file: "efes.png", q: "Efes Antik Kenti nerededir?", opts: ["İzmir", "Aydın", "Muğla", "Antalya"], a: 0, info: "Meryem Ana Evi'ne de ev sahipliği yapan, Ege'nin incisi olan ilimizdedir." },
+      { file: "truva.png", q: "Truva Atı ile ünlü kent nerededir?", opts: ["Bursa", "Balıkesir", "Çanakkale", "İzmir"], a: 2, info: "Boğazın kıyısında, Şehitler Abidesi ile bilinen kahraman şehrimizdedir." },
+      { file: "nemrut.png", q: "Nemrut Dağı heykelleri hangi ildedir?", opts: ["Malatya", "Adıyaman", "Elazığ", "Van"], a: 1, info: "Kommagene Krallığı'na ait heykeller, çiğ köftesiyle ünlü ilimizdedir." },
+      { file: "pamukkale.png", q: "Pamukkale Hierapolis nerededir?", opts: ["Denizli", "Afyon", "Muğla", "Aydın"], a: 0, info: "Beyaz travertenler, horozuyla meşhur olan Ege ilimizdedir." },
+      { file: "kapadokya.png", q: "Peri Bacaları (Kapadokya) hangi bölgededir?", opts: ["Nevşehir", "Konya", "Kayseri", "Sivas"], a: 0, info: "Güzel Atlar Ülkesi olarak bilinir, İç Anadolu'nun turizm merkezidir." },
+      { file: "sumela.png", q: "Sümela Manastırı hangi ildedir?", opts: ["Rize", "Artvin", "Trabzon", "Ordu"], a: 2, info: "Sarp kayalıklara kurulu bu manastır, hamsi ve horonun başkentindedir." },
+      { file: "kizkulesi.png", q: "Kız Kulesi hangi ilimizdedir?", opts: ["İstanbul", "İzmir", "Çanakkale", "Mersin"], a: 0, info: "İki kıtayı birbirine bağlayan, boğazın incisi metropolümüzdedir." },
+      { file: "anitkabir.png", q: "Anıtkabir hangi ilimizdedir?", opts: ["İstanbul", "Ankara", "Samsun", "İzmir"], a: 1, info: "Kurtuluş Savaşı'nın yönetildiği, Türkiye'nin kalbi olan başkentimizdedir." },
+      { file: "aspendos.png", q: "Aspendos Tiyatrosu nerededir?", opts: ["Muğla", "Mersin", "Antalya", "Hatay"], a: 2, info: "Türkiye'nin turizm başkenti olan, portakalıyla ünlü Akdeniz şehrimizdedir." },
+      // SEVİYE 2
+      { file: "catalhoyuk.png", q: "Çatalhöyük antik kenti nerededir?", opts: ["Konya", "Aksaray", "Ankara", "Karaman"], a: 0, info: "İnsanlık tarihinin ilk şehir yerleşimi, Mevlana'nın şehrindedir." },
+      { file: "zeugma.png", q: "Zeugma Mozaik Müzesi nerededir?", opts: ["Hatay", "Gaziantep", "Şanlıurfa", "Adana"], a: 1, info: "Çingene Kızı mozaiği, baklavası ve mutfağıyla ünlü ilimizdedir." },
+      { file: "hattusas.png", q: "Hitit başkenti Hattuşaş nerededir?", opts: ["Çorum", "Yozgat", "Amasya", "Tokat"], a: 0, info: "Hititlerin başkenti, leblebisiyle ünlü ilimizdedir." },
+      { file: "akdamar.png", q: "Akdamar Kilisesi hangi göldedir?", opts: ["Tuz Gölü", "Beyşehir", "Van Gölü", "Eğirdir"], a: 2, info: "Türkiye'nin en büyük gölündeki adadadır. Kedisiyle meşhurdur." },
+      { file: "bergama.png", q: "Bergama (Pergamon) nerededir?", opts: ["Manisa", "İzmir", "Balıkesir", "Çanakkale"], a: 1, info: "Parşömenin icat edildiği yerdir. Ege'nin en büyük üçüncü ilindedir." },
+      { file: "gordion.png", q: "Kral Midas'ın mezarı Gordion nerededir?", opts: ["Eskişehir", "Kütahya", "Afyon", "Ankara"], a: 3, info: "Frig başkenti Gordion, tiftik keçisiyle ünlü başkentimizdedir." },
+      { file: "myra.png", q: "Noel Baba ile bilinen Myra nerededir?", opts: ["Antalya", "Muğla", "Mersin", "Isparta"], a: 0, info: "Noel Baba kilisesi buradadır. Türkiye'nin en sıcak turizm kentindedir." },
+      { file: "harran.png", q: "Kümbet evleriyle ünlü Harran nerededir?", opts: ["Mardin", "Şanlıurfa", "Batman", "Siirt"], a: 1, info: "Konik kubbeli evleriyle meşhurdur. Balıklıgöl bu ilimizdedir." },
+      { file: "ishakpasa.png", q: "İshak Paşa Sarayı nerededir?", opts: ["Kars", "Erzurum", "Ağrı", "Iğdır"], a: 2, info: "Doğunun incisi bu saray, Türkiye'nin en yüksek dağının eteklerindedir." },
+      { file: "hasankeyf.png", q: "Ilısu Barajı altında kalan Hasankeyf nerededir?", opts: ["Mardin", "Batman", "Diyarbakır", "Siirt"], a: 1, info: "Dicle nehri kıyısında, petrolüyle bilinen şehrimizdedir." },
+      // SEVİYE 3
+      { file: "giza.png", q: "Giza Piramitleri hangi ülkededir?", opts: ["Mısır", "Fas", "Tunus", "Sudan"], a: 0, info: "Nil nehrinin kıyısında, firavunlar ülkesindedir." },
+      { file: "cinseddi.png", q: "Çin Seddi'ni başlatan imparator kimdir?", opts: ["Qin Shi Huang", "Ming", "Han", "Tang"], a: 0, info: "Uzaydan görülebildiği söylenen bu yapı, Uzak Doğu'nun ejderhasıdır." },
+      { file: "machupicchu.png", q: "Machu Picchu hangi ülkededir?", opts: ["Meksika", "Şili", "Peru", "Brezilya"], a: 2, info: "İnka medeniyetinin kayıp şehri, Güney Amerika'nın batı kıyısındadır." },
+      { file: "petra.png", q: "Kayalara oyulu Petra antik kenti nerededir?", opts: ["Ürdün", "Lübnan", "Suriye", "Mısır"], a: 0, info: "Kayalara oyulmuş bu antik kent, Ortadoğu'nun Haşimi Krallığı'ndadır." },
+      { file: "kolezyum.png", q: "Kolezyum (Colosseum) hangi şehirdedir?", opts: ["Atina", "Roma", "Milano", "Venedik"], a: 1, info: "Gladyatörlerin dövüştüğü bu arena, Çizme şeklindeki ülkenin başkentindedir." },
+      { file: "stonehenge.png", q: "Stonehenge hangi ülkededir?", opts: ["İrlanda", "İskoçya", "İngiltere", "Galler"], a: 2, info: "Bu gizemli taşlar, Kraliçe ve çayıyla ünlü ada ülkesindedir." },
+      { file: "moai.png", q: "Moai heykelleri (Paskalya Adası) kime aittir?", opts: ["Şili", "Peru", "Arjantin", "Avustralya"], a: 0, info: "Bu dev heykeller, Güney Amerika'nın uzun ve ince ülkesine bağlı bir adadadır." },
+      { file: "tacmahal.png", q: "Tac Mahal hangi ülkededir?", opts: ["Pakistan", "Hindistan", "İran", "Bangladeş"], a: 1, info: "Şah Cihan'ın aşkı için yaptırdığı bu anıt, baharatlarıyla ünlü ülkededir." },
+      { file: "chichenitza.png", q: "Maya piramidi Chichen Itza nerededir?", opts: ["Meksika", "Peru", "Brezilya", "Kolombiya"], a: 0, info: "Mayaların bu piramidi, takoları ve şapkalarıyla ünlü ülkededir." },
+      { file: "parthenon.png", q: "Akropolis'teki Parthenon tapınağı nerededir?", opts: ["Roma", "Atina", "Selanik", "Girit"], a: 1, info: "Komşumuzun başkentinde, felsefe ve demokrasinin doğduğu yerdedir." }
     ];
 
     let idx = 0;
     let score = 0;
     let lives = 5;
-    let time = 300; // 5 Dakika
+    let time = 300; 
     let timer;
-    // Joker Durumları
     let joker5050Used = false;
     let jokerHintUsed = false;
     let jokerSkipUsed = false;
@@ -321,7 +384,7 @@
     const infoText = document.getElementById('infoText');
     const nextBtn = document.getElementById('nextBtn');
     const levelUpScreen = document.getElementById('levelUpScreen');
-    // Joker Butonları
+    const rateBtnLink = document.getElementById('rateBtnLink');
     const btn5050 = document.getElementById('joker5050');
     const btnHint = document.getElementById('jokerHint');
     const btnSkip = document.getElementById('jokerSkip');
@@ -356,21 +419,20 @@
         nextBtn.classList.remove('visible');
         infoText.innerHTML = '';
         
-        // Seviye Atlama
-        if (idx === 10 || idx === 20) {
-            time = 300; 
-            document.getElementById('uiTimer').innerText = "5:00";
-            showLevelUp();
+        if (idx === 10) { 
+            time = 300; document.getElementById('uiTimer').innerText = "5:00";
+            showLevelUp(2);
+            rateBtnLink.style.display = 'block';
+        }
+        else if (idx === 20) { 
+            time = 300; document.getElementById('uiTimer').innerText = "5:00";
+            showLevelUp(3); 
         }
 
-        if (idx >= questions.length) {
-            endGame(true);
-            return;
-        }
+        if (idx >= questions.length) { endGame(true); return; }
 
         const data = questions[idx];
         qEl.innerText = data.q;
-        
         imgEl.style.display = 'block';
         imgEl.src = "resimler/" + data.file;
         imgEl.onload = () => { imgEl.style.opacity = '1'; };
@@ -391,128 +453,95 @@
         let currentLevel = 1;
         if (idx >= 10) currentLevel = 2;
         if (idx >= 20) currentLevel = 3;
-        
         document.getElementById('uiLevel').innerText = currentLevel;
         document.getElementById('qDisplay').innerText = idx + 1;
     }
 
-    function showLevelUp() {
+    function showLevelUp(level) {
         playSound('levelUp');
+        const titleEl = document.getElementById('levelUpTitle');
+        const msgEl = document.getElementById('levelUpMsg');
+        if (level === 2) {
+            titleEl.innerText = "TEBRİKLER! 2. SEVİYEDESİN 🏺";
+            msgEl.innerText = "Harika gidiyorsun! Anadolu'nun sırlarını çözdün, şimdi daha derinlere inme vakti.";
+        } else if (level === 3) {
+            titleEl.innerText = "MUHTEŞEM! 3. SEVİYEDESİN 💎";
+            msgEl.innerText = "Zirveye çok yakınsın! Gerçek bir uzman gibi dünya mirasını keşfet!";
+        }
         levelUpScreen.style.display = 'flex';
-        setTimeout(() => {
-            levelUpScreen.style.display = 'none';
-        }, 3000);
+        setTimeout(() => { levelUpScreen.style.display = 'none'; }, 4000);
     }
 
-    // --- JOKER FONKSİYONLARI ---
+    // --- JOKERLER ---
     function useKarbon14() {
         if (joker5050Used || nextBtn.classList.contains('visible')) return;
-        
         const data = questions[idx];
         const allBtns = Array.from(document.querySelectorAll('.opt-btn'));
         const incorrectBtns = allBtns.filter(btn => btn.innerText !== data.opts[data.a]);
-        
         incorrectBtns.sort(() => Math.random() - 0.5);
         incorrectBtns.slice(0, 2).forEach(btn => {
-            btn.disabled = true;
-            btn.style.opacity = '0.3';
+            btn.disabled = true; btn.style.opacity = '0.3';
         });
-
         joker5050Used = true;
         btn5050.disabled = true;
     }
 
     function useRehber() {
         if (jokerHintUsed || nextBtn.classList.contains('visible')) return;
-
         const data = questions[idx];
-        const allBtns = document.querySelectorAll('.opt-btn');
-        allBtns.forEach(btn => {
-            if (btn.innerText === data.opts[data.a]) {
-                btn.classList.add('hint-highlight');
-            }
-        });
-
+        infoText.innerHTML = `<span class='info-hint'>💡 İPUCU:</span> ${data.info}`;
         jokerHintUsed = true;
         btnHint.disabled = true;
     }
 
     function useYeniKatman() {
         if (jokerSkipUsed || nextBtn.classList.contains('visible')) return;
-        
         jokerSkipUsed = true;
         btnSkip.disabled = true;
-        
-        idx++;
-        loadQuestion();
+        idx++; loadQuestion();
     }
-    // ---------------------------
 
     function checkAnswer(selected, correct, btn, data) {
         if (nextBtn.classList.contains('visible')) return;
-
         const allBtns = document.querySelectorAll('.opt-btn');
-        let pointsToAdd = 3; 
-        if (idx >= 20) pointsToAdd = 4;
+        let pointsToAdd = 3; if (idx >= 20) pointsToAdd = 4;
 
         if (selected === correct) {
-            btn.classList.add('correct');
-            playSound('correct');
-            score += pointsToAdd;
-            document.getElementById('uiScore').innerText = score;
+            btn.classList.add('correct'); playSound('correct');
+            score += pointsToAdd; document.getElementById('uiScore').innerText = score;
             infoText.innerHTML = "<span class='info-success'>✅ DOĞRU!</span>";
             triggerConfetti();
         } else {
-            btn.classList.add('incorrect');
-            playSound('wrong');
-            lives--;
-            document.getElementById('uiLives').innerText = "❤️".repeat(Math.max(0, lives));
+            btn.classList.add('incorrect'); playSound('wrong');
+            lives--; document.getElementById('uiLives').innerText = "❤️".repeat(Math.max(0, lives));
             
+            // Yanlışta da İpucu Gösterilsin
             infoText.innerHTML = `<span class='info-error'>❌ YANLIŞ!</span> ${data.info}`;
+            
             triggerSadFaces();
-
-            allBtns.forEach(b => {
-                if (b.innerText === data.opts[correct]) b.classList.add('correct');
-            });
-
-            if (lives <= 0) {
-                setTimeout(() => endGame(false), 2500); 
-                return;
-            }
+            allBtns.forEach(b => { if (b.innerText === data.opts[correct]) b.classList.add('correct'); });
+            if (lives <= 0) { setTimeout(() => endGame(false), 2500); return; }
         }
-
         allBtns.forEach(b => b.disabled = true);
         nextBtn.classList.add('visible');
     }
 
-    function nextQuestion() {
-        idx++;
-        loadQuestion();
-    }
+    function nextQuestion() { idx++; loadQuestion(); }
 
     function endGame(isWin) {
         clearInterval(timer);
         document.getElementById('endScreen').classList.remove('hidden');
-        document.getElementById('endTitle').innerText = isWin ? "OYUN BİTTİ" : "OYUN BİTTİ";
+        document.getElementById('endTitle').innerText = "OYUN BİTTİ";
         document.getElementById('endScore').innerText = score + " Puan";
-        
         let msg = "";
-        if (score === 100) {
-            msg = "TEBRİKLER KAŞİF! 🏺\nMuhteşem bir hafızan var, tüm hazineleri buldun!";
-        } else if (score >= 80) {
-            msg = "Harika İş! Neredeyse tüm sırları çözdün.";
-        } else {
-            msg = "Güzel çaba, ama biraz daha araştırmalısın.";
-        }
-        
+        if (score === 100) msg = "TEBRİKLER KAŞİF! 🏺\nMuhteşem bir hafızan var!";
+        else if (score >= 80) msg = "Harika İş! Neredeyse tüm sırları çözdün.";
+        else msg = "Güzel çaba, ama biraz daha araştırmalısın.";
         document.getElementById('endMsg').innerText = msg;
         if(isWin) triggerConfetti();
     }
 
-    function triggerConfetti() {
-        if (typeof confetti === 'function') confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
-    }
-
+    function triggerConfetti() { if (typeof confetti === 'function') confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } }); }
     function triggerSadFaces() {
         const emojis = ['😢', '💔', '😭', '☹️', '❌'];
         for (let i = 0; i < 5; i++) {
@@ -527,9 +556,4 @@
     }
   </script>
  </body>
-
 </html>
-
-
-
-
